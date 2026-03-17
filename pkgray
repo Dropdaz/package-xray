@@ -30,4 +30,5 @@ DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 # Usamos -u init.lua si tienes uno, o simplemente cargamos el main.lua
 exec nvim --clean -n \
     --cmd "set runtimepath+=$DIR" \
+    --cmd "lua package.path = package.path .. ';$DIR/?.lua;$DIR/?/init.lua'" \
     -c "luafile $DIR/main.lua"
