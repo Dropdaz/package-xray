@@ -4,6 +4,9 @@
 
 **Package-Xray** provides a lightning-fast, highly visual Terminal User Interface (TUI) to audit, explore, and manage your installed packages. Built on top of Neovim's powerful UI engine natively leveraging Lua, it turns package management from a chore into a premium developer experience.
 
+<img width="500" height="300" alt="imagen" src="https://github.com/user-attachments/assets/c5cd4b73-a4dc-409f-b2e3-c870e995580a" />
+
+
 ![License](https://img.shields.io/badge/license-GPLv3-blue.svg)
 ![Platform](https://img.shields.io/badge/platform-Debian%20%7C%20Ubuntu-orange.svg)
 
@@ -69,6 +72,19 @@ Simply run the tool from your terminal:
 # or if added to your PATH:
 package-xray
 ```
+
+Remember to use sudo to be able to install/uninstall packages!
+```bash
+sudo ./pkgray
+# or if added to your PATH:
+sudo package-xray
+```
+
+<img width="2838" height="1501" alt="imagen" src="https://github.com/user-attachments/assets/a9aaa7fc-430a-4387-90ec-75e5fd56672b" />
+
+
+<img width="2807" height="1461" alt="imagen" src="https://github.com/user-attachments/assets/1cd5c3f5-cad4-4c35-9f59-f80bee58ae7c" />
+
 
 ### ⌨️ Keybindings & Controls
 
