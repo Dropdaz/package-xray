@@ -4,9 +4,8 @@ set -e
 
 echo "📦 Installing Package-Xray..."
 
-# 1. Add Neovim Stable PPA for the latest version (0.10+)
-# This ensures consistent colors and modern Lua API support
-echo "🌐 Adding Neovim Stable PPA..."
+# 1. Add Neovim Stable PPA to get version 0.10+ (replaces old apt/snap versions)
+echo "🌐 Adding Neovim Stable PPA for modern UI support..."
 sudo add-apt-repository ppa:neovim-ppa/stable -y
 sudo apt update
 
@@ -36,18 +35,18 @@ else
     git clone https://github.com/Dropdaz/package-xray.git "$INSTALL_DIR"
 fi
 
-# 5. Set execution permissions for the internal script
+# 5. Set execution permissions for the internal launcher
 chmod +x "$INSTALL_DIR/pkgray"
 
-# 6. Create a global symlink for 'pckray' and 'sudo pckray'
-echo "🔗 Creating global symlink in /usr/local/bin..."
+# 6. Create a global symlink in /usr/local/bin
+# This allows 'pckray' and 'sudo pckray' to work from any folder
+echo "🔗 Creating global symlink..."
 sudo ln -sf "$INSTALL_DIR/pkgray" "$GLOBAL_BIN"
 
-# 7. Clear the shell's command hash table
-# This fixes the "bash: /snap/bin/nvim: No such file" error
+# 7. Clear command hash to avoid "snap/bin/nvim" errors
 hash -r
 
 echo ""
-echo "✅ Package-Xray installed successfully with Neovim Stable!"
-echo "🚀 Run it with: pckray"
-echo "🔐 Administrative tasks: sudo pckray"
+echo "✅ Package-Xray installed successfully!"
+echo "🚀 Run it from anywhere: pckray"
+echo "🔐 Delete packages with: sudo pckray"
