@@ -1,0 +1,11 @@
+# Local application logs
+logs/
+
+# Scratch and test files
+test_uninstall_fix.lua
+patri.txt
+
+# Editor and OS generated files
+.DS_Store
+*.swp
+*~
