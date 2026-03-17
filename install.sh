@@ -19,7 +19,7 @@ if [ -n "$MISSING_DEPS" ]; then
 fi
 
 # Define paths
-INSTALL_DIR="$HOME/.local/share/package-xray"
+INSTALL_DIR="$HOME/.local/share/pckray"
 BIN_DIR="$HOME/.local/bin"
 
 # Clone or update repo
@@ -38,7 +38,7 @@ chmod +x "$INSTALL_DIR/pkgray"
 # Create symlink
 echo "🔗 Creating symlink..."
 mkdir -p "$BIN_DIR"
-ln -sf "$INSTALL_DIR/pkgray" "$BIN_DIR/package-xray"
+ln -sf "$INSTALL_DIR/pkgray" "$BIN_DIR/pckray"
 
 # Path check
 if [[ ":$PATH:" != *":$BIN_DIR:"* ]]; then
@@ -51,4 +51,4 @@ if [[ ":$PATH:" != *":$BIN_DIR:"* ]]; then
 fi
 
 echo "✅ Package-Xray installed successfully!"
-echo "🚀 Run 'package-xray' to launch the application."
+echo "🚀 Run 'pckray' to launch the application."
