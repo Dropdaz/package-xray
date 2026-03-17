@@ -17,4 +17,17 @@
 
 # Launch with --clean to avoid any user config interference
 # use -n for no swap file
-nvim --clean -u NONE -c "set runtimepath+=." -c "luafile main.lua"
+# 1. Detectar la ruta real del script (incluso a través de symlinks)
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+
+# 2. Ejecutar Neovim usando la ruta absoluta detectada
+# Usamos -u init.lua si tienes uno, o simplemente cargamos el main.lua
+exec nvim --clean -n \
+    --cmd "set runtimepath+=$DIR" \
+    -c "luafile $DIR/main.lua"
