@@ -1,10 +1,10 @@
 #!/bin/bash
 # Package-Xray Installer Script
-
 set -e
 
 echo "📦 Installing Package-Xray..."
 
+# 1. Check for required dependencies
 MISSING_DEPS=""
 if ! command -v git &> /dev/null; then MISSING_DEPS="git "; fi
 if ! command -v nvim &> /dev/null; then MISSING_DEPS="${MISSING_DEPS}neovim "; fi
@@ -12,17 +12,17 @@ if ! command -v jq &> /dev/null; then MISSING_DEPS="${MISSING_DEPS}jq "; fi
 
 if [ -n "$MISSING_DEPS" ]; then
     echo "⚙️  Missing dependencies detected: $MISSING_DEPS"
-    echo "🔑 Requesting sudo privileges to install them via apt..."
-    sudo apt update
-    sudo apt install -y $MISSING_DEPS
+    echo "🔑 Requesting sudo privileges to install them..."
+    sudo apt update && sudo apt install -y $MISSING_DEPS
     echo "✅ Dependencies installed!"
 fi
 
-# Define paths
+# 2. Define installation paths
 INSTALL_DIR="$HOME/.local/share/pckray"
-BIN_DIR="$HOME/.local/bin"
+# Using /usr/local/bin ensures 'sudo pckray' works correctly
+GLOBAL_BIN="/usr/local/bin/pckray"
 
-# Clone or update repo
+# 3. Clone or update the repository
 if [ -d "$INSTALL_DIR" ]; then
     echo "🔄 Updating existing installation at $INSTALL_DIR..."
     cd "$INSTALL_DIR"
@@ -32,23 +32,15 @@ else
     git clone https://github.com/Dropdaz/package-xray.git "$INSTALL_DIR"
 fi
 
-# Set executable permission
+# 4. Set execution permissions for the internal script
 chmod +x "$INSTALL_DIR/pkgray"
 
-# Create symlink
-echo "🔗 Creating symlink..."
-mkdir -p "$BIN_DIR"
-ln -sf "$INSTALL_DIR/pkgray" "$BIN_DIR/pckray"
+# 5. Create a global symlink
+echo "🔗 Creating global symlink in /usr/local/bin..."
+# This requires sudo but makes the command available system-wide
+sudo ln -sf "$INSTALL_DIR/pkgray" "$GLOBAL_BIN"
 
-# Path check
-if [[ ":$PATH:" != *":$BIN_DIR:"* ]]; then
-    echo ""
-    echo "⚠️  Important: $BIN_DIR is not in your PATH."
-    echo "👉 Please add the following line to your ~/.bashrc or ~/.zshrc:"
-    echo "   export PATH=\"\$HOME/.local/bin:\$PATH\""
-    echo "   Then restart your terminal or run: source ~/.bashrc"
-    echo ""
-fi
-
+echo ""
 echo "✅ Package-Xray installed successfully!"
-echo "🚀 Run 'pckray' to launch the application."
+echo "🚀 Launch it with: pckray"
+echo "🔐 For administrative tasks: sudo pckray"

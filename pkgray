@@ -5,19 +5,8 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-# Contact: ernestovivesxalo@gmail.com | https://github.com/Dropdaz
 
-# Launch with --clean to avoid any user config interference
-# use -n for no swap file
-# 1. Detectar la ruta real del script (incluso a través de symlinks)
+# 1. Detect the actual script directory (resolving symlinks)
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do
   DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
@@ -26,8 +15,11 @@ while [ -h "$SOURCE" ]; do
 done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
-# 2. Ejecutar Neovim usando la ruta absoluta detectada
-# Usamos -u init.lua si tienes uno, o simplemente cargamos el main.lua
+# 2. Launch Neovim in a clean environment
+# --clean: Ignore user config to avoid plugin conflicts
+# -n: Disable swap files
+# --cmd "set rtp+=$DIR": Add the app directory to Neovim's runtime path
+# --cmd "lua package.path...": Allow 'require' to find your local .lua files
 exec nvim --clean -n \
     --cmd "set runtimepath+=$DIR" \
     --cmd "lua package.path = package.path .. ';$DIR/?.lua;$DIR/?/init.lua'" \
